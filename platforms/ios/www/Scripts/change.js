@@ -27,9 +27,14 @@ function update() {
         dataType: "json",
         success: function (response, textS, xhr) {
             //alert(response.rate);
-            $('#change').fadeIn( 100, function() {
-            }).html(response.from + '/' + response.to + ': ' + response.rate + '  = ' + change(response.rate));
-
+            if (response.err == '' || response.err == undefined) {
+                $('#change').fadeIn(100, function () {
+                }).html(response.from + '/' + response.to + ': ' + response.rate + '  = ' + change(response.rate));
+            }
+            else {
+                $('#change').fadeIn(100, function () {
+                }).html(response.err);
+            }
         },
         error: function (xmlHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
