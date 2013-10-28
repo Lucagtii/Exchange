@@ -1,13 +1,14 @@
 ﻿//http://rate-exchange.appspot.com/currency?from=USD&to=EUR
 
 var from = 'EUR';
-var to = 'USD'
+var to = 'USD';
 
-var currencies = ['AED', 'AFN'];
+//var currencies = ['AED', 'AFN'];
 
 function loadCurrencyCombo() {
     $.each(currencies, function () {
         $("#sourceCurrency").append('<option value="' + this + '">' + this + '</option>');
+        $("#destCurrency").append('<option value="' + this + '">' + this + '</option>');
     });
 }
 
@@ -18,8 +19,8 @@ function update() {
     //        alert(data.from);
     //    });
 
-    from = $('#from').val();
-    to   = $('#to').val();
+    from = $('#sourceCurrency').val();
+    to = $('#destCurrency').val();
     $.ajax({
         type: "POST",
         url: 'http://rate-exchange.appspot.com/currency?from='+ from + '&to=' + to + '&callback=?',
