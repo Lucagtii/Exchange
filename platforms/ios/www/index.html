@@ -8,6 +8,11 @@
 <link href="Content/jquery.mobile.theme-1.2.0.min.css" rel="stylesheet" />
 <link href="Content/Site.css" rel="stylesheet" />
 
+<script src="cordova.js"></script>
+<script src="cordova_plugins.js"></script>
+
+<script src="phonegap.js"></script>
+
 <script src="Scripts/_references.js"></script>
 <script src="Scripts/jquery-1.8.2.min.js"></script>
 <script src="Scripts/jquery-ui-1.8.24.min.js"></script>
@@ -23,21 +28,55 @@
 <script src="Scripts/modernizr-2.6.2.js"></script>
 <script src="Scripts/currenciesArray.js"></script>
 <script src="Scripts/change.js"></script>
-    <script>
-        $(document).ready(function () {
-            loadCurrencyCombo();
-        });
-        
-    </script>
+<script src="Scripts/app.js"></script>
+<script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        checkConnection();
+    }
+
+    function checkConnection() {
+        var networkState = navigator.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN] = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI] = 'WiFi connection';
+        states[Connection.CELL_2G] = 'Cell 2G connection';
+        states[Connection.CELL_3G] = 'Cell 3G connection';
+        states[Connection.CELL_4G] = 'Cell 4G connection';
+        states[Connection.CELL] = 'Cell generic connection';
+        states[Connection.NONE] = 'No network connection';
+
+        alert('Connection type: ' + states[networkState]);
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        loadCurrencyCombo();
+    });
+    $(document).bind('mobileinit', function () {
+        $.mobile.loader.prototype.options.text = "loading";
+        $.mobile.loader.prototype.options.textVisible = false;
+        $.mobile.loader.prototype.options.theme = "b";
+        $.mobile.loader.prototype.options.html = "";
+    });
+</script>
 <head>
     <title>Change</title>
 </head>
 <body>
     <!-- Home -->
-       <div data-role="page" id="page1">
+    <div data-role="page" id="page1">
         <div data-theme="a" data-role="header">
-            <h3>
-                Exchange
+            <h3>Exchange
             </h3>
         </div>
         <div data-role="content">
@@ -46,34 +85,39 @@
                     From:
                 </label>
                 <select id="sourceCurrency" name="">
-                    <option value="option1">
-                        Select currency
+                    <option value="option1">Select currency
                     </option>
-                    
+
                 </select>
             </div>
             <div data-role="fieldcontain">
                 <label for="textinput1">
                     Value
                 </label>
-                <input name="" id="fromCurrVal" placeholder="" value="" type="text">
-                    </div>
+                <input name="" id="fromCurrVal" placeholder="" value="" type="text" style="max-width: 100px; display: inline">
+                <select name="toggleswitch1" id="toggleswitch1" data-theme="f" data-role="slider" data-mini="true">
+                    <option value="off">swipe
+                    </option>
+                    <option value="on">swipe
+                    </option>
+                </select>
+
+            </div>
             <div data-role="fieldcontain">
                 <label for="selectmenu2">
                     To:
                 </label>
                 <select id="destCurrency" name="">
-                    <option value="option1">
-                        Select currency
+                    <option value="option1">Select currency
                     </option>
-                    
+
                 </select>
             </div>
             <div>
-            <input type="submit" value="Convert" onclick="update()">
-                </div>
+                <input type="submit" value="Convert" data-inline="true" data-theme="f" value="Convert"
+                    data-mini="true" onclick="update()">
+            </div>
             <div id="change"></div>
-    </div>
-
+        </div>
 </body>
 </html>

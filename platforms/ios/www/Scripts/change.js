@@ -19,8 +19,16 @@ function update() {
     //        alert(data.from);
     //    });
 
+    
+
     from = $('#sourceCurrency').val();
     to = $('#destCurrency').val();
+    $.mobile.loading('show', {
+        text: 'Exchange: ' + from + '/' + to,
+        textVisible: true,
+        theme: 'a',
+        html: ""
+    });
     $.ajax({
         type: "POST",
         url: 'http://rate-exchange.appspot.com/currency?from='+ from + '&to=' + to + '&callback=?',
@@ -35,15 +43,19 @@ function update() {
                 $('#change').fadeIn(100, function () {
                 }).html(response.err);
             }
+            $.mobile.loading('hide');
         },
         error: function (xmlHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
+            $.mobile.loading('hide');
         }
     });
 }
 
 function change(rate) {
-    return $('#fromCurrVal').val() * rate;
+    var resultRate = $('#fromCurrVal').val() * rate
+    var result = Math.round(resultRate * 100) / 100
+    return result
 }
 
 
